@@ -58,6 +58,14 @@ export default function ClientProviders({ children }: { children: React.ReactNod
           icon: { color: "#111111" },
         },
       },
+      MuiTab: {
+        styleOverrides: {
+          root: {
+            textTransform: "none",
+            fontWeight: 600,
+          },
+        },
+      },
     },
   });
 

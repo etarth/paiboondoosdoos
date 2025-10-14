@@ -32,12 +32,25 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         variant="permanent"
         sx={{
           width: drawerWidth,
-          "& .MuiDrawer-paper": { width: drawerWidth, boxSizing: "border-box", top: "64px" },
+          "& .MuiDrawer-paper": {
+            width: drawerWidth,
+            boxSizing: "border-box",
+            top: "64px",
+          },
         }}
       >
         <SideNavBar />
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: "64px", ml: `${drawerWidth}px` }}>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 0,
+          pt: 3,
+          mt: "64px",
+          mx: `24px`,
+        }}
+      >
         {children}
       </Box>
     </Box>
