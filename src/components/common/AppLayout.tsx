@@ -12,7 +12,7 @@ const drawerWidth = 240;
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <Box className="bg-red-300" sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex" }}>
       <AppBar
         position="fixed"
         elevation={0}
