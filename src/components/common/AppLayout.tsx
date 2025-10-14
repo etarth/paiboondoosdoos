@@ -12,7 +12,7 @@ const drawerWidth = 240;
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box className="bg-red-300" sx={{ display: "flex" }}>
       <AppBar
         position="fixed"
         elevation={0}
@@ -32,12 +32,25 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         variant="permanent"
         sx={{
           width: drawerWidth,
-          "& .MuiDrawer-paper": { width: drawerWidth, boxSizing: "border-box", top: "64px" },
+          "& .MuiDrawer-paper": {
+            width: drawerWidth,
+            boxSizing: "border-box",
+            top: "64px",
+          },
         }}
       >
         <SideNavBar />
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: "64px", ml: `${drawerWidth}px` }}>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 0,
+          pt: 3,
+          mt: "64px",
+          ml: `24px`,
+        }}
+      >
         {children}
       </Box>
     </Box>
