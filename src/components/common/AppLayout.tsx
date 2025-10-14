@@ -48,7 +48,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           p: 0,
           pt: 3,
           mt: "64px",
-          ml: `24px`,
+          mx: `24px`,
         }}
       >
         {children}
