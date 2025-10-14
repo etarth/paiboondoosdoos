@@ -1,0 +1,29 @@
+<svg width="420" height="96" viewBox="0 0 420 96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="DoosDoos wordmark">
+  <defs>
+    <linearGradient id="dooGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1EA7FF"/>
+      <stop offset="100%" stop-color="#0052CC"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(25,24)" fill="#0B1020">
+    <!-- D -->
+    <path d="M0 50 V0 h26 c16 0 26 10 26 25 c0 15 -10 25 -26 25 H0 z M14 38 h12 c8 0 12-5 12-13 s-4-13 -12-13 h-12 v26z"/>
+    <!-- o o -->
+    <circle cx="72" cy="26" r="16" fill="url(#dooGradient)"/>
+    <circle cx="108" cy="26" r="16" fill="#4CC9F0"/>
+    <circle cx="72" cy="26" r="8" fill="#0B1020"/>
+    <circle cx="108" cy="26" r="8" fill="#0B1020"/>
+    <!-- s -->
+    <path d="M140 40 c0 10 10 16 22 16 c9 0 16-3 20-9 l-10-6 c-2 3-6 5-10 5 c-5 0-8-2-8-5 c0-9 30-2 30-20 c0-10-9-17-22-17 c-9 0-17 3-22 9 l10 6 c3-3 7-5 12-5 c5 0 8 2 8 5 c0 9-30 2-30 21 z" fill="#0B1020"/>
+    <!-- D -->
+    <path d="M190 50 V0 h26 c16 0 26 10 26 25 c0 15 -10 25 -26 25 h-26 z M204 38 h12 c8 0 12-5 12-13 s-4-13 -12-13 h-12 v26z"/>
+    <!-- o o -->
+    <circle cx="262" cy="26" r="16" fill="url(#dooGradient)"/>
+    <circle cx="298" cy="26" r="16" fill="#4CC9F0"/>
+    <circle cx="262" cy="26" r="8" fill="#0B1020"/>
+    <circle cx="298" cy="26" r="8" fill="#0B1020"/>
+    <!-- s -->
+    <path d="M330 40 c0 10 10 16 22 16 c9 0 16-3 20-9 l-10-6 c-2 3-6 5-10 5 c-5 0-8-2-8-5 c0-9 30-2 30-20 c0-10-9-17-22-17 c-9 0-17 3-22 9 l10 6 c3-3 7-5 12-5 c5 0 8 2 8 5 c0 9-30 2-30 21 z" fill="#0B1020"/>
+  </g>
+</svg>
