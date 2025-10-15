@@ -1,12 +1,10 @@
 "use client";
-
-import React from "react";
-import Typography from "@mui/material/Typography";
-import { Avatar, Box, Button, Stack } from "@mui/material";
+import { Box, Stack, Avatar, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 
-export default function OrderHistory() {
+export default function FriendList() {
   const router = useRouter();
+
   const oems = [
     {
       name: "Paiboon Snacks Co., Ltd.",
@@ -76,12 +74,19 @@ export default function OrderHistory() {
             key={index}
             direction="row"
             alignItems="center"
+            onClick={() => router.push(`/chat/${index}`)}
             sx={{
               bgcolor: "rgba(255,255,255,0.05)",
               borderRadius: 4,
               mx: 2,
               py: 1,
               px: 1,
+              cursor: "pointer",
+              transition: "0.3s",
+              "&:hover": {
+                bgcolor: "rgba(255,255,255,0.1)",
+                transform: "scale(1.02)",
+              },
             }}
           >
             <Avatar
@@ -89,28 +94,11 @@ export default function OrderHistory() {
               src="/doosdoos_icon.svg"
               sx={{ width: 70, height: 70, m: 2 }}
             />
-            <Box sx={{ pl: 3, width: "22vw" }}>
-              <Typography sx={{ mb: 0.3, color: "white" }}>
-                User Name : {oem.name}
-              </Typography>
-              <Typography sx={{ mb: 0.3, color: "white" }}>
-                Email : {oem.email}
-              </Typography>
-              <Typography sx={{ color: "white" }}>Tel : {oem.tel}</Typography>
+            <Box sx={{ pl: 3, color: "white" }}>
+              <Typography sx={{ mb: 0.3 }}>User Name: {oem.name}</Typography>
+              <Typography sx={{ mb: 0.3 }}>Email: {oem.email}</Typography>
+              <Typography>Tel: {oem.tel}</Typography>
             </Box>
-            <Button
-              variant="contained"
-              size="small"
-              sx={{
-                bgcolor: "white",
-                color: "black",
-                "&:hover": { bgcolor: "Grey" },
-                ml: 80,
-              }}
-              onClick={() => router.push(`/oems/${index}`)}
-            >
-              View
-            </Button>
           </Stack>
         ))}
       </Stack>

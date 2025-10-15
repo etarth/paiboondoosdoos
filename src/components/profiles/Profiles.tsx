@@ -7,7 +7,7 @@ import { Avatar, Box, Container, Stack } from "@mui/material";
 export default function ProfileBar() {
   return (
     <>
-      <Box sx={{ bgcolor: "GrayText", height: "30vh", pt: 0.25 }}>
+      <Box sx={{ bgcolor: "#1a1a1a", height: "30vh", pt: 0.25 }}>
         <Stack direction="row">
           <Avatar
             alt="Remy Sharp"
