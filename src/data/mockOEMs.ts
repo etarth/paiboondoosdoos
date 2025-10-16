@@ -1,9 +1,10 @@
 import { OEM } from "@/types/oem";
-
 export const mockOEMs: OEM[] = [
   {
     id: "1",
     name: "TechCorp Manufacturing",
+    email: "",
+    tel: "",
     categories: ["Electronics", "Consumer Devices"],
     country: "Japan",
     region: "Asia",
@@ -16,10 +17,16 @@ export const mockOEMs: OEM[] = [
     reliability: 95,
     description:
       "Leading manufacturer of consumer electronics with 30+ years of experience.",
+    history:
+      "Established in 1990 in Tokyo, Japan, TechCorp Manufacturing began as a precision electronics workshop. Over three decades, it has evolved into a global leader in consumer electronics and smart device manufacturing, known for its innovation and Japanese craftsmanship.",
+    sellingNarrative:
+      "TechCorp delivers world-class electronic manufacturing with ISO 9001, CE, and RoHS certifications. Ideal for startups and global brands seeking premium quality, advanced automation, and scalable production from prototype to mass market.",
   },
   {
     id: "2",
     name: "AutoParts Global",
+    email: "",
+    tel: "",
     categories: ["Automotive Parts", "Manufacturing"],
     country: "Germany",
     region: "Europe",
@@ -27,15 +34,21 @@ export const mockOEMs: OEM[] = [
     website: "https://autoparts.example.com",
     priceRange: "$15,000 - $75,000",
     deliveryTime: "6-8 weeks",
-    moq: "1,000 units",
+    moq: "1000 units",
     certifications: ["ISO 9001", "IATF 16949", "ISO 14001"],
     reliability: 92,
     description:
       "Premium automotive parts supplier with German engineering excellence.",
+    history:
+      "Founded in Stuttgart, Germany in 1985, AutoParts Global built its reputation on high-performance automotive components for European and global car manufacturers. Its precision engineering and quality systems meet the toughest international standards.",
+    sellingNarrative:
+      "AutoParts Global is a trusted OEM and Tier-1 supplier certified with ISO 9001 and IATF 16949. It offers custom automotive part production with rigorous testing, fast prototyping, and German-engineered reliability.",
   },
   {
     id: "3",
     name: "ElectroFlow Ltd",
+    email: "",
+    tel: "",
     categories: ["Electronics", "Circuit Boards"],
     country: "Taiwan",
     region: "Asia",
@@ -48,10 +61,16 @@ export const mockOEMs: OEM[] = [
     reliability: 90,
     description:
       "Specialized in PCB manufacturing and electronic component assembly.",
+    history:
+      "Established in 2001 in Hsinchu, Taiwan, ElectroFlow started as a small PCB manufacturer and has grown into a regional leader in electronics assembly and circuit board innovation for various industries including IoT and wearables.",
+    sellingNarrative:
+      "ElectroFlow offers high-precision PCB fabrication with ISO 9001, CE, and UL certifications. Its strength lies in quick turnaround times, flexible order sizes, and engineering support that helps clients move from design to market efficiently.",
   },
   {
     id: "4",
     name: "MegaManufacture Inc",
+    email: "",
+    tel: "",
     categories: ["Industrial Equipment", "Manufacturing"],
     country: "United States",
     region: "North America",
@@ -64,10 +83,16 @@ export const mockOEMs: OEM[] = [
     reliability: 88,
     description:
       "Large-scale industrial equipment manufacturer serving Fortune 500 companies.",
+    history:
+      "MegaManufacture was founded in 1998 in Houston, USA, as a full-service provider of industrial machinery and custom equipment. It has since become a major OEM partner for industrial, construction, and manufacturing sectors worldwide.",
+    sellingNarrative:
+      "MegaManufacture provides large-scale industrial equipment manufacturing with ISO 9001 and CE certifications. Their expertise in precision engineering and robust production processes ensures reliability for enterprise-scale clients.",
   },
   {
     id: "5",
     name: "PrecisionTech Solutions",
+    email: "",
+    tel: "",
     categories: ["Electronics", "Medical Devices"],
     country: "South Korea",
     region: "Asia",
@@ -80,10 +105,16 @@ export const mockOEMs: OEM[] = [
     reliability: 97,
     description:
       "High-precision medical device components with strict quality control.",
+    history:
+      "PrecisionTech Solutions was established in Seoul, South Korea, in 2003 to produce high-quality electronic and medical device components. The company integrates precision engineering with strict quality control standards.",
+    sellingNarrative:
+      "PrecisionTech is certified with ISO 13485 and FDA, offering premium OEM and ODM services for medical and healthcare products. Ideal for brands demanding accuracy, compliance, and cutting-edge manufacturing.",
   },
   {
     id: "6",
     name: "EcoManufacture Co",
+    email: "",
+    tel: "",
     categories: ["Sustainable Products", "Consumer Goods"],
     country: "Sweden",
     region: "Europe",
@@ -96,10 +127,16 @@ export const mockOEMs: OEM[] = [
     reliability: 85,
     description:
       "Eco-friendly manufacturing with sustainable practices and materials.",
+    history:
+      "Based in Stockholm, Sweden, EcoManufacture was founded in 2012 to pioneer sustainable production methods in consumer goods. The company emphasizes eco-friendly materials and renewable energy in all operations.",
+    sellingNarrative:
+      "EcoManufacture is perfect for environmentally conscious brands. With ISO 14001 and sustainable sourcing, they deliver eco-friendly OEM manufacturing for household and lifestyle products.",
   },
   {
     id: "7",
     name: "FastLine Manufacturing",
+    email: "",
+    tel: "",
     categories: ["Electronics", "Accessories"],
     country: "China",
     region: "Asia",
@@ -107,15 +144,21 @@ export const mockOEMs: OEM[] = [
     website: "https://fastline.example.com",
     priceRange: "$3,000 - $20,000",
     deliveryTime: "2-4 weeks",
-    moq: "1,000 units",
+    moq: "1000 units",
     certifications: ["ISO 9001", "CE"],
     reliability: 82,
     description:
       "High-volume, cost-effective electronics manufacturing with quick turnaround.",
+    history:
+      "Founded in Shenzhen, China, in 2010, FastLine Manufacturing focuses on high-volume consumer electronics accessories. It rapidly gained reputation for speed, scalability, and cost efficiency.",
+    sellingNarrative:
+      "FastLine offers fast, affordable, and reliable OEM production for electronics accessories. ISO 9001 and CE certified, the company supports startups and established brands with competitive lead times.",
   },
   {
     id: "8",
     name: "PremiumParts Ltd",
+    email: "",
+    tel: "",
     categories: ["Automotive Parts", "Aerospace"],
     country: "United Kingdom",
     region: "Europe",
@@ -128,5 +171,224 @@ export const mockOEMs: OEM[] = [
     reliability: 94,
     description:
       "Aerospace and high-performance automotive parts with rigorous testing.",
+    history:
+      "PremiumParts Ltd, founded in 1995 in Birmingham, UK, specializes in high-precision components for the aerospace and automotive industries. The company is known for quality assurance and advanced metallurgy expertise.",
+    sellingNarrative:
+      "With AS9100 and NADCAP certifications, PremiumParts is the go-to partner for aerospace and automotive OEM production, ensuring world-class safety, performance, and precision.",
+  },
+  {
+    id: "9",
+    name: "Paiboon Snacks Co., Ltd.",
+    email: "contact@paiboonsnacks.com",
+    tel: "02-123-4567",
+    categories: ["Snacks", "Confectionery"],
+    country: "Thailand",
+    region: "Asia",
+    rating: 4.2,
+    website: "https://paiboonsnacks.com",
+    priceRange: "$5,000 - $20,000",
+    deliveryTime: "6-8 weeks",
+    moq: "1000 units",
+    certifications: ["GMP", "HACCP"],
+    reliability: 88,
+    description: "OEM snack manufacturer specializing in Thai-style treats.",
+    history:
+      "Founded in 2005 in Samut Prakan, Thailand, Paiboon Snacks began as a small family business producing traditional Thai snacks. Through years of innovation and quality improvement, it has become a well-known OEM snack manufacturer recognized for its commitment to Thai-style treats made with modern production lines and strict food safety standards.",
+    sellingNarrative:
+      "Paiboon Snacks offers authentic Thai snack production with GMP and HACCP certifications. Perfect for brands looking to launch unique Asian-style snack products with guaranteed quality, flexible batch sizes, and export-ready packaging.",
+  },
+  {
+    id: "10",
+    name: "SEA Bridge Manufacturing",
+    email: "info@seabridge.co.th",
+    tel: "02-678-9012",
+    categories: ["Beverages", "Snacks"],
+    country: "Thailand",
+    region: "Asia",
+    rating: 4.5,
+    website: "https://seabridge.co.th",
+    priceRange: "$10,000 - $30,000",
+    deliveryTime: "4-6 weeks",
+    moq: "500 units",
+    certifications: ["ISO 22000", "Halal"],
+    reliability: 92,
+    description:
+      "Trusted OEM partner for beverages and packaged snacks in SEA.",
+    history:
+      "Established in Bangkok in 2010, SEA Bridge Manufacturing was founded to connect Southeast Asian beverage and snack brands with world-class production standards. The company has since grown into a trusted OEM partner for both startups and established brands in the F&B industry.",
+    sellingNarrative:
+      "SEA Bridge provides full-service OEM for beverages and snacks, including formulation, packaging design, and export compliance. With ISO 22000 and Halal certifications, it’s ideal for entrepreneurs expanding into SEA’s fast-growing beverage market.",
+  },
+  {
+    id: "11",
+    name: "Golden Taste Food Factory",
+    email: "sales@goldentaste.com",
+    tel: "02-345-6789",
+    categories: ["Snacks", "Dried Fruits"],
+    country: "Thailand",
+    region: "Asia",
+    rating: 4.1,
+    website: "https://goldentaste.com",
+    priceRange: "$8,000 - $25,000",
+    deliveryTime: "5-7 weeks",
+    moq: "800 units",
+    certifications: ["HACCP", "ISO 9001"],
+    reliability: 85,
+    description: "Manufacturer of high-quality dried fruits and snack foods.",
+    history:
+      "Golden Taste Food Factory was founded in 2008 with a mission to bring natural Thai dried fruits and snacks to international markets. Based in Pathum Thani, the company specializes in fruit dehydration and modern packaging technologies.",
+    sellingNarrative:
+      "Offering HACCP and ISO 9001-certified facilities, Golden Taste is a reliable OEM for brands seeking to produce healthy, natural dried fruit snacks with authentic Thai flavors and consistent export quality.",
+  },
+  {
+    id: "12",
+    name: "Bangkok Beverage OEM",
+    email: "hello@bangkokbevoem.com",
+    tel: "02-234-1122",
+    categories: ["Beverages", "Juices"],
+    country: "Thailand",
+    region: "Asia",
+    rating: 4.3,
+    website: "https://bangkokbevoem.com",
+    priceRange: "$12,000 - $40,000",
+    deliveryTime: "5-6 weeks",
+    moq: "600 units",
+    certifications: ["ISO 22000", "FDA"],
+    reliability: 90,
+    description:
+      "OEM beverage producer with expertise in juices and RTD drinks.",
+    history:
+      "Founded in 2012, Bangkok Beverage OEM has built a reputation as one of Thailand’s leading beverage production partners. The company focuses on ready-to-drink (RTD) juices and functional beverages with modern automation systems.",
+    sellingNarrative:
+      "Certified by ISO 22000 and FDA, Bangkok Beverage OEM is the go-to partner for beverage brands aiming for freshness, innovation, and quick market entry. The company supports small to large production volumes with premium packaging options.",
+  },
+  {
+    id: "13",
+    name: "Chiangmai Natural Snacks",
+    email: "cm.natural@snackthai.com",
+    tel: "053-445-776",
+    categories: ["Organic Snacks", "Healthy Foods"],
+    country: "Thailand",
+    region: "Asia",
+    rating: 4.0,
+    website: "https://chiangmaisnacks.com",
+    priceRange: "$6,000 - $18,000",
+    deliveryTime: "7-9 weeks",
+    moq: "1200 units",
+    certifications: ["Organic", "GMP"],
+    reliability: 82,
+    description: "Chiangmai-based OEM producing organic and natural snacks.",
+    history:
+      "Chiangmai Natural Snacks began in 2014 in northern Thailand, focusing on local organic ingredients and community-based production. The company supports sustainable agriculture while offering OEM services for natural and healthy snack products.",
+    sellingNarrative:
+      "With Organic and GMP certifications, Chiangmai Natural Snacks is ideal for eco-conscious brands seeking OEM production with authentic regional ingredients and sustainable sourcing.",
+  },
+  {
+    id: "14",
+    name: "FreshDay Juice OEM",
+    email: "orders@freshdayjuice.co.th",
+    tel: "02-991-4433",
+    categories: ["Juices", "Functional Drinks"],
+    country: "Thailand",
+    region: "Asia",
+    rating: 4.4,
+    website: "https://freshdayjuice.co.th",
+    priceRange: "$9,000 - $28,000",
+    deliveryTime: "3-5 weeks",
+    moq: "700 units",
+    certifications: ["ISO 22000", "Halal"],
+    reliability: 91,
+    description:
+      "OEM juice and beverage producer with a focus on fresh and functional drinks.",
+    history:
+      "Established in 2016 in Bangkok, FreshDay Juice OEM started with the mission to create fresher, healthier beverage options for modern consumers. The company focuses on cold-pressed and functional drinks using Thai fruits.",
+    sellingNarrative:
+      "FreshDay Juice OEM offers ISO 22000 and Halal-certified juice production. It’s ideal for brands looking to launch innovative, fresh-tasting beverages with fast delivery times and customized formulas.",
+  },
+  {
+    id: "15",
+    name: "ThaiCrisp FoodTech",
+    email: "support@thaicrisp.com",
+    tel: "02-882-3344",
+    categories: ["Snacks", "Baked Goods"],
+    country: "Thailand",
+    region: "Asia",
+    rating: 4.3,
+    website: "https://thaicrisp.com",
+    priceRange: "$7,000 - $22,000",
+    deliveryTime: "5-8 weeks",
+    moq: "900 units",
+    certifications: ["HACCP", "ISO 9001"],
+    reliability: 87,
+    description:
+      "Innovative snack technology company producing crispy baked goods.",
+    history:
+      "Founded in 2013, ThaiCrisp FoodTech combines snack innovation with advanced baking technology. Located in Bangkok, the company develops healthier, baked snack alternatives with a focus on texture and flavor.",
+    sellingNarrative:
+      "Certified with HACCP and ISO 9001, ThaiCrisp FoodTech is perfect for snack brands that value innovation, crispy texture, and lower-fat formulations. Their R&D team assists in creating new flavor concepts ready for export.",
+  },
+  {
+    id: "16",
+    name: "HealthyBite Production",
+    email: "contact@healthybite.com",
+    tel: "02-775-8899",
+    categories: ["Healthy Snacks", "Protein Bars"],
+    country: "Thailand",
+    region: "Asia",
+    rating: 4.6,
+    website: "https://healthybite.com",
+    priceRange: "$10,000 - $35,000",
+    deliveryTime: "4-6 weeks",
+    moq: "600 units",
+    certifications: ["GMP", "ISO 22000"],
+    reliability: 94,
+    description:
+      "Leading OEM producer of health-oriented snacks and protein bars.",
+    history:
+      "HealthyBite Production was established in 2017 to respond to the growing demand for health-conscious snacks. The company specializes in protein bars, granola, and functional snack production using premium ingredients.",
+    sellingNarrative:
+      "HealthyBite is GMP and ISO 22000 certified, ideal for fitness or wellness brands looking for OEM production of protein-based or low-sugar snacks. They emphasize high nutrition value with trendy packaging.",
+  },
+  {
+    id: "17",
+    name: "OceanTaste Seaweed Co.",
+    email: "info@oceantaste.co.th",
+    tel: "02-111-2244",
+    categories: ["Seaweed Snacks", "Healthy Snacks"],
+    country: "Thailand",
+    region: "Asia",
+    rating: 4.1,
+    website: "https://oceantaste.co.th",
+    priceRange: "$6,000 - $19,000",
+    deliveryTime: "6-7 weeks",
+    moq: "1000 units",
+    certifications: ["Halal", "HACCP"],
+    reliability: 86,
+    description: "Seaweed snack OEM with export experience across Asia.",
+    history:
+      "OceanTaste Seaweed Co. was founded in 2011 in Chonburi, Thailand, with the goal of transforming local seaweed farming into international snack exports. The company focuses on seaweed-based snacks with authentic Thai flavors.",
+    sellingNarrative:
+      "Certified with Halal and HACCP, OceanTaste provides seaweed snack OEM services ideal for health-oriented and export brands. They specialize in crispy seaweed sheets, baked rolls, and fusion snack varieties.",
+  },
+  {
+    id: "18",
+    name: "Royal Snack Hub",
+    email: "service@royalsnackhub.com",
+    tel: "02-556-7788",
+    categories: ["Premium Snacks", "Luxury Foods"],
+    country: "Thailand",
+    region: "Asia",
+    rating: 4.7,
+    website: "https://royalsnackhub.com",
+    priceRange: "$15,000 - $45,000",
+    deliveryTime: "5-7 weeks",
+    moq: "500 units",
+    certifications: ["ISO 22000", "HACCP", "Halal"],
+    reliability: 96,
+    description: "Premium OEM snack hub serving luxury and export markets.",
+    history:
+      "Royal Snack Hub was established in 2018 as a luxury snack OEM in Bangkok, serving both domestic and export premium markets. The company focuses on packaging aesthetics, gift sets, and high-end snack ingredients.",
+    sellingNarrative:
+      "Royal Snack Hub, certified with ISO 22000, HACCP, and Halal, caters to premium brands seeking elegant, export-quality snack production. Perfect for luxury gift lines and gourmet snack collections.",
   },
 ];

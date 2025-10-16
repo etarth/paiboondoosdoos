@@ -20,8 +20,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search, Star, Globe, MapPin, CheckCircle2 } from "lucide-react";
+import {
+  Search,
+  Star,
+  Globe,
+  MapPin,
+  CheckCircle2,
+  MessageCircle,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
+import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 
 const OEMListContent = () => {
   const router = useRouter();
@@ -177,7 +185,7 @@ const OEMListContent = () => {
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                  {oem.categories.map((cat) => (
+                  {oem.categories.map((cat: string) => (
                     <Badge key={cat} variant="secondary">
                       {cat}
                     </Badge>
@@ -200,7 +208,7 @@ const OEMListContent = () => {
                 </div>
 
                 <div className="flex flex-wrap gap-1">
-                  {oem.certifications.map((cert) => (
+                  {oem.certifications.map((cert: any) => (
                     <Badge key={cert} variant="outline" className="text-xs">
                       {cert}
                     </Badge>
@@ -208,29 +216,41 @@ const OEMListContent = () => {
                 </div>
               </CardContent>
 
-              <CardFooter className="flex gap-2">
+              <CardFooter className="flex flex-col gap-2">
+                {/* Row: Website + Select */}
+                <div className="flex flex-row gap-2 w-full">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex-1"
+                    onClick={() => window.open(`/oems/${oem.id}`, "_blank")}
+                  >
+                    <Globe className="h-4 w-50 mr-2" />
+                    View
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant={
+                      selectedOEMs.includes(oem.id) ? "default" : "outline"
+                    }
+                    className={`flex-1 ${
+                      selectedOEMs.includes(oem.id)
+                        ? "bg-black text-white"
+                        : "bg-white"
+                    }`}
+                    onClick={() => toggleOEMSelection(oem.id)}
+                  >
+                    {selectedOEMs.includes(oem.id) ? "Selected" : "Select"}
+                  </Button>
+                </div>
                 <Button
                   variant="outline"
                   size="sm"
-                  className="flex-1"
-                  onClick={() => window.open(oem.website, "_blank")}
+                  className="w-full py-3 text-base"
+                  onClick={() => router.push(`/chat/${oem.id}`)}
                 >
-                  <Globe className="h-4 w-4 mr-2" />
-                  Website
-                </Button>
-                <Button
-                  size="sm"
-                  variant={
-                    selectedOEMs.includes(oem.id) ? "default" : "outline"
-                  }
-                  className={`flex-1 ${
-                    selectedOEMs.includes(oem.id)
-                      ? "bg-black text-white"
-                      : "bg-white"
-                  }`}
-                  onClick={() => toggleOEMSelection(oem.id)}
-                >
-                  {selectedOEMs.includes(oem.id) ? "Selected" : "Select"}
+                  <MessageCircle className="h-4 w-4 mr-2" />
+                  Chat Now
                 </Button>
               </CardFooter>
             </Card>

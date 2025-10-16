@@ -7,23 +7,29 @@ import { Avatar, Box, Container, Stack } from "@mui/material";
 export default function ProfileBar() {
   return (
     <>
-      <Box sx={{ bgcolor: "#1a1a1a", height: "30vh", pt: 0.25 }}>
+      <Box
+        sx={{
+          bgcolor: "white",
+          height: "30vh",
+          pt: 0.25,
+          border: "1px solid",
+          borderRadius: 5,
+        }}
+      >
         <Stack direction="row">
           <Avatar
-            alt="Remy Sharp"
+            alt="Jhon Doe"
             src="/static/images/avatar/1.jpg"
-            sx={{ width: 65, height: 65, m: 2 }}
+            sx={{ width: 70, height: 70, m: 2 }}
           />
-          <Box sx={{ m: 2, pl: 3 }}>
-            <Typography sx={{ mb: 0.3, color: "white", fontSize: 20 }}>
+          <Box sx={{ m: 2, pl: 2 }}>
+            <Typography sx={{ mb: 0.3, fontSize: 20 }}>
               User Name : Jhon Doe
             </Typography>
-            <Typography sx={{ mb: 0.3, color: "white", fontSize: 20 }}>
+            <Typography sx={{ mb: 0.3, fontSize: 20 }}>
               Email : JhonDoe@gmail.com
             </Typography>
-            <Typography sx={{ color: "white", fontSize: 20 }}>
-              Tel : 099-999-9999
-            </Typography>
+            <Typography sx={{ fontSize: 20 }}>Tel : 099-999-9999</Typography>
           </Box>
         </Stack>
       </Box>

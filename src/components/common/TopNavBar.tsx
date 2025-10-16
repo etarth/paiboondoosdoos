@@ -13,9 +13,16 @@ export default function TopNavBar() {
         doosdoos
       </Typography>
       <Box sx={{ flexGrow: 1 }} />
-      <Typography variant="body2" sx={{ mr: 2 }}>
-        {role === "guest" ? "Guest" : role === "customer" ? "Customer" : "OEM"}
-      </Typography>
+      <Button href="/customer/profile" sx={{ mr: 2 }}>
+        <Typography variant="body2">
+          {role === "guest"
+            ? "Guest"
+            : role === "customer"
+            ? "Customer"
+            : "OEM"}
+        </Typography>
+      </Button>
+
       {role === "guest" ? (
         <Button component={Link} href="/login" color="inherit">
           Login

@@ -8,7 +8,7 @@ export default function UserProfilePage() {
   return (
     <>
       <ProfileBar />
-      <Typography variant="h4" sx={{ my: 2 }}>
+      <Typography variant="h4" sx={{ mt: 2 }}>
         Order History
       </Typography>
       <OrderHistory />
