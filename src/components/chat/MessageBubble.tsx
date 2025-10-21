@@ -16,7 +16,7 @@ export const MessageBubble = ({ message }: MessageBubbleProps) => {
         isCustomer ? "flex-row-reverse" : "flex-row"
       )}
     >
-      <Avatar className="h-8 w-8 shrink-0">
+      <Avatar className="h-8 w-8 shrink-0 border border-black">
         <AvatarFallback
           className={cn(
             isCustomer

@@ -1,6 +1,5 @@
 "use client";
 import { useMemo } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
 import { mockOEMs } from "@/data/mockOEMs";
 import { OEM } from "@/types/oem";
 import { Button } from "@/components/ui/button";
@@ -22,10 +21,11 @@ import {
   DollarSign,
   Award,
 } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function OEMComparison() {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const oemIds = searchParams.get("ids")?.split(",") || [];
 
   const selectedOEMs = useMemo(() => {
@@ -84,7 +84,7 @@ export default function OEMComparison() {
             <p className="text-muted-foreground mb-4">
               Please select at least 2 OEMs from the list to compare.
             </p>
-            <Button onClick={() => navigate("/oems")}>
+            <Button onClick={() => router.push("/oems")}>
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to OEM List
             </Button>
@@ -100,7 +100,7 @@ export default function OEMComparison() {
         <div className="mb-6">
           <Button
             variant="ghost"
-            onClick={() => navigate("/oems")}
+            onClick={() => router.push("/oems")}
             className="mb-4"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
