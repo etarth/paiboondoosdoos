@@ -1,386 +1,252 @@
-"use client";
-
-import React from "react";
-import Typography from "@mui/material/Typography";
+import { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { mockOEMs } from "../../data/mockOEMs";
+import { OEM } from "@/types/oem";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
-  Button,
   Card,
-  CardActions,
   CardContent,
-  CardMedia,
-  Stack,
-  Grid,
-  Box,
-} from "@mui/material";
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Search, Star, Globe, MapPin, CheckCircle2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import EmailIcon from "@mui/icons-material/Email";
-import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-export default function OemListContent() {
+
+const OEMListContent = () => {
   const router = useRouter();
-  const oems = [
-    {
-      name: "Paiboon Snacks Co., Ltd.",
-      email: "contact@paiboonsnacks.com",
-      tel: "02-123-4567",
-    },
-    {
-      name: "SEA Bridge Manufacturing",
-      email: "info@seabridge.co.th",
-      tel: "02-678-9012",
-    },
-    {
-      name: "Golden Taste Food Factory",
-      email: "sales@goldentaste.com",
-      tel: "02-345-6789",
-    },
-    {
-      name: "Bangkok Beverage OEM",
-      email: "hello@bangkokbevoem.com",
-      tel: "02-234-1122",
-    },
-    {
-      name: "Chiangmai Natural Snacks",
-      email: "cm.natural@snackthai.com",
-      tel: "053-445-776",
-    },
-    {
-      name: "FreshDay Juice OEM",
-      email: "orders@freshdayjuice.co.th",
-      tel: "02-991-4433",
-    },
-    {
-      name: "ThaiCrisp FoodTech",
-      email: "support@thaicrisp.com",
-      tel: "02-882-3344",
-    },
-    {
-      name: "HealthyBite Production",
-      email: "contact@healthybite.com",
-      tel: "02-775-8899",
-    },
-    {
-      name: "OceanTaste Seaweed Co.",
-      email: "info@oceantaste.co.th",
-      tel: "02-111-2244",
-    },
-    {
-      name: "Royal Snack Hub",
-      email: "service@royalsnackhub.com",
-      tel: "02-556-7788",
-    },
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedCountry, setSelectedCountry] = useState<string>("all");
+  const [selectedOEMs, setSelectedOEMs] = useState<string[]>([]);
 
-    {
-      name: "SweetLeaf Dessert Factory",
-      email: "info@sweetleaf.co.th",
-      tel: "02-443-1188",
-    },
-    {
-      name: "Bangna Protein Foods",
-      email: "sales@bangnaprotein.com",
-      tel: "02-991-7755",
-    },
-    {
-      name: "Thai Herbal Extracts",
-      email: "contact@thaiherbalextracts.com",
-      tel: "02-664-9021",
-    },
-    {
-      name: "EverGreen Tea OEM",
-      email: "support@evergreentea.com",
-      tel: "02-445-9977",
-    },
-    {
-      name: "AroiPlus Beverage Works",
-      email: "info@aroiplusbev.com",
-      tel: "02-782-3321",
-    },
-    {
-      name: "ChocoCharm Confectionery",
-      email: "hello@chococharm.co.th",
-      tel: "02-661-4432",
-    },
-    {
-      name: "Riceberry Snack Co.",
-      email: "sales@riceberrysnacks.com",
-      tel: "02-671-8890",
-    },
-    {
-      name: "SiamSoy Protein Foods",
-      email: "contact@siamsoyfoods.co.th",
-      tel: "02-234-4560",
-    },
-    {
-      name: "Naturely Bites OEM",
-      email: "info@naturelybites.com",
-      tel: "02-451-7788",
-    },
-    {
-      name: "Healthy Sip Drinks",
-      email: "support@healthysip.co.th",
-      tel: "02-990-3344",
-    },
+  const allCategories = useMemo(() => {
+    const categories = new Set<string>();
+    mockOEMs.map((oem: OEM) =>
+      oem.categories.map((cat) => categories.add(cat))
+    );
+    return ["all", ...Array.from(categories)];
+  }, []);
 
-    {
-      name: "GreenLeaf Organic OEM",
-      email: "contact@greenleafoem.com",
-      tel: "02-789-6543",
-    },
-    {
-      name: "Bangkok Cereal Factory",
-      email: "info@bkkcereal.co.th",
-      tel: "02-778-9021",
-    },
-    {
-      name: "Sunrise Coconut Co.",
-      email: "sales@sunrisecoconut.com",
-      tel: "02-774-2288",
-    },
-    {
-      name: "NorthTaste Food Co.",
-      email: "info@northtaste.co.th",
-      tel: "053-882-990",
-    },
-    {
-      name: "Krabi Beverage Works",
-      email: "contact@krabibev.com",
-      tel: "075-882-112",
-    },
-    {
-      name: "GoldenPalm Snack Factory",
-      email: "info@goldenpalm.co.th",
-      tel: "02-881-7744",
-    },
-    {
-      name: "FruitTime Processing Co.",
-      email: "sales@fruittime.co.th",
-      tel: "02-443-5599",
-    },
-    {
-      name: "ThaiDelight Beverage",
-      email: "info@thaidelightbev.com",
-      tel: "02-229-7766",
-    },
-    {
-      name: "PureDrop Water Co.",
-      email: "hello@puredropwater.com",
-      tel: "02-991-2211",
-    },
-    {
-      name: "AsiaProtein Foods Ltd.",
-      email: "contact@asiaprotein.com",
-      tel: "02-888-7744",
-    },
+  const allCountries = useMemo(() => {
+    const countries = new Set(mockOEMs.map((oem) => oem.country));
+    return ["all", ...Array.from(countries)];
+  }, []);
 
-    {
-      name: "Chiangrai Herbal Works",
-      email: "sales@chiangraiherbal.co.th",
-      tel: "053-772-334",
-    },
-    {
-      name: "SnackHub Thailand",
-      email: "info@snackhub.co.th",
-      tel: "02-661-1123",
-    },
-    { name: "Ocha Tea OEM", email: "hello@ochatea.com", tel: "02-887-7766" },
-    {
-      name: "NutraFit Nutrition Factory",
-      email: "support@nutrafit.co.th",
-      tel: "02-559-3344",
-    },
-    {
-      name: "SweetBite OEM",
-      email: "orders@sweetbite.co.th",
-      tel: "02-882-7788",
-    },
-    {
-      name: "FreshField Juice Co.",
-      email: "info@freshfieldjuice.com",
-      tel: "02-667-1122",
-    },
-    {
-      name: "Siam Gourmet Foods",
-      email: "contact@siamgourmet.com",
-      tel: "02-441-9988",
-    },
-    {
-      name: "GoldenCup Coffee OEM",
-      email: "sales@goldencupcoffee.com",
-      tel: "02-888-7766",
-    },
-    {
-      name: "VitaPlus Beverage",
-      email: "info@vitaplusbev.co.th",
-      tel: "02-882-1100",
-    },
-    {
-      name: "HappySnack Foods",
-      email: "hello@happysnack.co.th",
-      tel: "02-443-6655",
-    },
+  const filteredOEMs = useMemo(() => {
+    return mockOEMs.filter((oem) => {
+      const matchesSearch =
+        oem.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        oem.description.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory =
+        selectedCategory === "all" || oem.categories.includes(selectedCategory);
+      const matchesCountry =
+        selectedCountry === "all" || oem.country === selectedCountry;
+      return matchesSearch && matchesCategory && matchesCountry;
+    });
+  }, [searchQuery, selectedCategory, selectedCountry]);
 
-    {
-      name: "OceanBite Seafoods",
-      email: "sales@oceanbite.co.th",
-      tel: "02-775-9900",
-    },
-    {
-      name: "RiceHeart Foods",
-      email: "info@riceheart.co.th",
-      tel: "02-882-7733",
-    },
-    {
-      name: "NatureNest OEM",
-      email: "contact@naturenest.co.th",
-      tel: "02-553-8899",
-    },
-    {
-      name: "Bangkok Coffee Roasters",
-      email: "info@bangkokcoffee.co.th",
-      tel: "02-667-4411",
-    },
-    {
-      name: "Smile Snack Factory",
-      email: "sales@smilesnack.com",
-      tel: "02-881-9900",
-    },
-    {
-      name: "HerbCare Natural Co.",
-      email: "info@herbcare.co.th",
-      tel: "02-992-5533",
-    },
-    {
-      name: "FruitJoy Processing",
-      email: "orders@fruitjoy.co.th",
-      tel: "02-991-4422",
-    },
-    {
-      name: "ThaiFarm Beverage",
-      email: "contact@thaifarmbev.com",
-      tel: "02-993-7711",
-    },
-    {
-      name: "SnackCraft Thailand",
-      email: "info@snackcraft.co.th",
-      tel: "02-887-4455",
-    },
-    {
-      name: "PureTaste FoodTech",
-      email: "hello@puretaste.co.th",
-      tel: "02-881-5566",
-    },
+  const toggleOEMSelection = (id: string) => {
+    setSelectedOEMs((prev) =>
+      prev.includes(id) ? prev.filter((oemId) => oemId !== id) : [...prev, id]
+    );
+  };
 
-    {
-      name: "Lanna Snack Works",
-      email: "sales@lannasnack.co.th",
-      tel: "053-443-772",
-    },
-    {
-      name: "CocoCharm Beverage",
-      email: "info@cococharm.co.th",
-      tel: "02-881-7766",
-    },
-    {
-      name: "TropicalFruit OEM",
-      email: "support@tropicalfruit.co.th",
-      tel: "02-771-8899",
-    },
-    {
-      name: "FitLife Nutrition OEM",
-      email: "contact@fitlife.co.th",
-      tel: "02-443-1199",
-    },
-    {
-      name: "FreshBrew Coffee Co.",
-      email: "info@freshbrew.co.th",
-      tel: "02-559-3311",
-    },
-    {
-      name: "HappyHerb Drinks",
-      email: "orders@happyherb.co.th",
-      tel: "02-991-4477",
-    },
-    {
-      name: "Snackify Thailand",
-      email: "info@snackify.co.th",
-      tel: "02-882-7766",
-    },
-    {
-      name: "GreenHarvest Foods",
-      email: "contact@greenharvest.co.th",
-      tel: "02-881-3322",
-    },
-    {
-      name: "SiamEco Juice OEM",
-      email: "sales@siamecojuice.co.th",
-      tel: "02-991-1188",
-    },
-    {
-      name: "BlueOcean Drinks",
-      email: "info@blueoceandrinks.co.th",
-      tel: "02-443-6677",
-    },
-  ];
+  const handleCompare = () => {
+    if (selectedOEMs.length >= 2) {
+      router.push(`/oems/compare?ids=${selectedOEMs.join(",")}`);
+    }
+  };
 
   return (
-    <Stack
-      direction="row"
-      flexWrap="wrap"
-      justifyContent="center"
-      gap={3}
-      sx={{ bgcolor: "grey.100", py: 4 }}
-    >
-      {oems.map((oem, index) => (
-        <Card
-          key={index}
-          sx={{
-            width: 320,
-            borderRadius: 3,
-            boxShadow: 4,
-            transition: "transform 0.2s",
-            "&:hover": { transform: "scale(1.03)" },
-          }}
-        >
-          <CardMedia
-            component="img"
-            alt={oem.name}
-            image="/doosdoos_wordmark.svg"
-            sx={{
-              height: 120,
-              width: "100%",
-              objectFit: "contain",
-              p: 2,
-            }}
-          />
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold mb-2">OEM Directory</h1>
+          <p className="text-muted-foreground">
+            Find and compare original equipment manufacturers worldwide
+          </p>
+        </div>
 
-          <CardContent>
-            <Typography gutterBottom variant="h6" component="div">
-              {oem.name}
-            </Typography>
-            <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              <EmailIcon /> {oem.email}
-            </Typography>
-            <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              <LocalPhoneIcon /> {oem.tel}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button
-              size="small"
-              variant="outlined"
-              onClick={() => router.push(`/oems/${index}`)}
+        {/* Search and Filters */}
+        <div className="mb-6 space-y-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+            <Input
+              placeholder="Search by name or description..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Select
+              value={selectedCategory}
+              onValueChange={setSelectedCategory}
             >
-              View
-            </Button>
-            <Button
-              size="small"
-              variant="outlined"
-              onClick={() => router.push(`/chat`)}
+              <SelectTrigger className="w-full sm:w-[200px]">
+                <SelectValue placeholder="Category" />
+              </SelectTrigger>
+              <SelectContent className="bg-white">
+                {allCategories.map((cat) => (
+                  <SelectItem key={cat} value={cat}>
+                    {cat === "all" ? "All Categories" : cat}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Select value={selectedCountry} onValueChange={setSelectedCountry}>
+              <SelectTrigger className="w-full sm:w-[200px]">
+                <SelectValue placeholder="Country" />
+              </SelectTrigger>
+              <SelectContent className="bg-white">
+                {allCountries.map((country) => (
+                  <SelectItem key={country} value={country}>
+                    {country === "all" ? "All Countries" : country}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            {selectedOEMs.length >= 2 && (
+              <Button
+                onClick={handleCompare}
+                className="w-full sm:w-auto bg-black text-white"
+              >
+                Compare Selected ({selectedOEMs.length})
+              </Button>
+            )}
+          </div>
+        </div>
+
+        {/* Results */}
+        <div className="mb-4 text-sm text-muted-foreground">
+          Showing {filteredOEMs.length} OEM
+          {filteredOEMs.length !== 1 ? "s" : ""}
+        </div>
+
+        {/* OEM Cards */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {filteredOEMs.map((oem) => (
+            <Card
+              key={oem.id}
+              className={`transition-all hover:shadow-lg ${
+                selectedOEMs.includes(oem.id) ? "ring-2 ring-primary" : ""
+              }`}
             >
-              Contact
-            </Button>
-          </CardActions>
-        </Card>
-      ))}
-    </Stack>
+              <CardHeader>
+                <div className="flex justify-between items-start">
+                  <div className="flex-1">
+                    <CardTitle className="text-xl mb-2">{oem.name}</CardTitle>
+                    <CardDescription className="line-clamp-2">
+                      {oem.description}
+                    </CardDescription>
+                  </div>
+                  {selectedOEMs.includes(oem.id) && (
+                    <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0 ml-2" />
+                  )}
+                </div>
+              </CardHeader>
+
+              <CardContent className="space-y-4">
+                <div className="flex items-center gap-2 text-sm">
+                  <Star className="h-4 w-4 fill-primary text-primary" />
+                  <span className="font-semibold">{oem.rating}</span>
+                  <span className="text-muted-foreground">
+                    ({oem.reliability}% reliability)
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <MapPin className="h-4 w-4" />
+                  <span>
+                    {oem.country}, {oem.region}
+                  </span>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {oem.categories.map((cat) => (
+                    <Badge key={cat} variant="secondary">
+                      {cat}
+                    </Badge>
+                  ))}
+                </div>
+
+                <div className="space-y-1 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Price Range:</span>
+                    <span className="font-medium">{oem.priceRange}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Delivery:</span>
+                    <span className="font-medium">{oem.deliveryTime}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">MOQ:</span>
+                    <span className="font-medium">{oem.moq}</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-1">
+                  {oem.certifications.map((cert) => (
+                    <Badge key={cert} variant="outline" className="text-xs">
+                      {cert}
+                    </Badge>
+                  ))}
+                </div>
+              </CardContent>
+
+              <CardFooter className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex-1"
+                  onClick={() => window.open(oem.website, "_blank")}
+                >
+                  <Globe className="h-4 w-4 mr-2" />
+                  Website
+                </Button>
+                <Button
+                  size="sm"
+                  variant={
+                    selectedOEMs.includes(oem.id) ? "default" : "outline"
+                  }
+                  className={`flex-1 ${
+                    selectedOEMs.includes(oem.id)
+                      ? "bg-black text-white"
+                      : "bg-white"
+                  }`}
+                  onClick={() => toggleOEMSelection(oem.id)}
+                >
+                  {selectedOEMs.includes(oem.id) ? "Selected" : "Select"}
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+
+        {filteredOEMs.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground text-lg">
+              No OEMs found matching your criteria
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
   );
-}
+};
+
+export default OEMListContent;
