@@ -4,9 +4,11 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Link from "next/link";
 import { useAuth } from "./AuthProvider";
+import { useRouter } from "next/navigation";
 
 export default function TopNavBar() {
   const { role, logout } = useAuth();
+  const router = useRouter();
   return (
     <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
       <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: 0.5 }}>
@@ -28,7 +30,13 @@ export default function TopNavBar() {
           Login
         </Button>
       ) : (
-        <Button onClick={logout} color="inherit">
+        <Button
+          onClick={() => {
+            logout();
+            router.push("/");
+          }}
+          color="inherit"
+        >
           Logout
         </Button>
       )}
