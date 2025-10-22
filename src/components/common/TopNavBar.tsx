@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "./AuthProvider";
+import { useRouter } from "next/navigation";
 
 export default function TopNavBar() {
   const { role, logout } = useAuth();
@@ -35,7 +36,13 @@ export default function TopNavBar() {
           Login
         </Button>
       ) : (
-        <Button onClick={logout} color="inherit">
+        <Button
+          onClick={() => {
+            logout();
+            router.push("/");
+          }}
+          color="inherit"
+        >
           Logout
         </Button>
       )}

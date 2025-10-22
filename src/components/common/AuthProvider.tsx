@@ -28,6 +28,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const newRole = username as Role;
       setRole(newRole);
       window.localStorage.setItem("role", newRole);
+      // Persist role to cookie so middleware can read it
+      document.cookie = `role=${newRole}; path=/; max-age=${60 * 60 * 24 * 7}`;
       return true;
     }
     return false;
@@ -36,6 +38,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = () => {
     setRole("guest");
     window.localStorage.removeItem("role");
+    // Clear role cookie
+    document.cookie = `role=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
   };
 
   return (
