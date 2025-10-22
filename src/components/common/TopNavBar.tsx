@@ -3,8 +3,8 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Link from "next/link";
-import { useAuth } from "./AuthProvider";
 import { useRouter } from "next/navigation";
+import { useAuth } from "./AuthProvider";
 
 export default function TopNavBar() {
   const { role, logout } = useAuth();
@@ -15,13 +15,18 @@ export default function TopNavBar() {
         doosdoos
       </Typography>
       <Box sx={{ flexGrow: 1 }} />
-      <Button href="/customer/profile" sx={{ mr: 2 }}>
+      <Button
+        onClick={() => {
+          if (role === "customer") {
+            router.push("/customer/profile");
+          } else if (role === "oem") {
+            router.push("/oem/profile");
+          }
+        }}
+        sx={{ mr: 2 }}
+      >
         <Typography variant="body2">
-          {role === "guest"
-            ? "Guest"
-            : role === "customer"
-            ? "Customer"
-            : "OEM"}
+          {role === "guest" ? "Guest" : role === "customer" ? "Customer" : "OEM"}
         </Typography>
       </Button>
 

@@ -1,7 +1,9 @@
 "use client";
 import { useState } from "react";
+import { useParams } from "next/navigation";
 import { ChatWindow } from "@/components/chat/ChatWindow";
 import { Message, ChatPartner } from "@/types/chat";
+import { mockFriends } from "@/data/mockFriends";
 
 const initialMessages: Message[] = [
   {
@@ -42,13 +44,26 @@ const initialMessages: Message[] = [
   },
 ];
 
-const chatPartner: ChatPartner = {
+// default fallback partner if id not found
+const defaultPartner: ChatPartner = {
   name: "TechManufacturing Co.",
   role: "OEM Partner",
   isOnline: true,
 };
 
 const ChatFriendPage = () => {
+  const params = useParams();
+  const id = params?.id ?? "";
+
+  // find partner by id from shared mockFriends
+  const friend = mockFriends.find((f) => f.id === id);
+
+  const partner: ChatPartner = {
+    name: friend?.name ?? defaultPartner.name,
+    role: defaultPartner.role,
+    isOnline: friend?.isOnline ?? defaultPartner.isOnline,
+  };
+
   const [messages, setMessages] = useState<Message[]>(initialMessages);
 
   const handleSendMessage = (text: string) => {
@@ -75,7 +90,7 @@ const ChatFriendPage = () => {
 
   return (
     <ChatWindow
-      partner={chatPartner}
+      partner={partner}
       messages={messages}
       onSendMessage={handleSendMessage}
     />
