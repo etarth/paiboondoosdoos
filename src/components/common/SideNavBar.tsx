@@ -26,6 +26,7 @@ export default function SideNavBar() {
   const userItems = role === "customer"
     ? [
         { label: "Home", href: "/" },
+        { label: "Profile", href: "/customer/profile" },
         { label: "Chat", href: "/chat" },
         { label: "OEM List", href: "/oems" },
       ]
