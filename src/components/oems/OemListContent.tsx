@@ -1,5 +1,4 @@
 import { useState, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
 import { mockOEMs } from "../../data/mockOEMs";
 import { OEM } from "@/types/oem";
 import { Button } from "@/components/ui/button";
@@ -20,16 +19,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Search,
-  Star,
-  Globe,
-  MapPin,
-  CheckCircle2,
-  MessageCircle,
-} from "lucide-react";
+import { Search, Star, MapPin, CheckCircle2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 
 const OEMListContent = () => {
   const router = useRouter();
@@ -37,6 +28,7 @@ const OEMListContent = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedCountry, setSelectedCountry] = useState<string>("all");
   const [selectedOEMs, setSelectedOEMs] = useState<string[]>([]);
+  const [sortBy, setSortBy] = useState<string>("rating_desc");
 
   const allCategories = useMemo(() => {
     const categories = new Set<string>();
@@ -51,8 +43,13 @@ const OEMListContent = () => {
     return ["all", ...Array.from(countries)];
   }, []);
 
+  const getWeeks = (time: string) => {
+    const match = time.match(/(\d+)-(\d+)/);
+    return match ? parseInt(match[1]) : 999;
+  };
+
   const filteredOEMs = useMemo(() => {
-    return mockOEMs.filter((oem) => {
+    const filtered = mockOEMs.filter((oem) => {
       const matchesSearch =
         oem.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         oem.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -62,7 +59,20 @@ const OEMListContent = () => {
         selectedCountry === "all" || oem.country === selectedCountry;
       return matchesSearch && matchesCategory && matchesCountry;
     });
-  }, [searchQuery, selectedCategory, selectedCountry]);
+
+    return filtered.sort((a, b) => {
+      switch (sortBy) {
+        case "rating_desc":
+          return b.rating - a.rating;
+        case "reliability_desc":
+          return b.reliability - a.reliability;
+        case "delivery_asc":
+          return getWeeks(a.deliveryTime) - getWeeks(b.deliveryTime);
+        default:
+          return 0;
+      }
+    });
+  }, [searchQuery, selectedCategory, selectedCountry, sortBy]);
 
   const toggleOEMSelection = (id: string) => {
     setSelectedOEMs((prev) =>
@@ -76,8 +86,13 @@ const OEMListContent = () => {
     }
   };
 
+  const getCoverUrl = (oem: OEM) => {
+    const primary = oem.categories[0]?.toLowerCase() || "factory";
+    return `https://picsum.photos/seed/${primary}-${oem.id}/800/400`;
+  };
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2">OEM Directory</h1>
@@ -89,12 +104,12 @@ const OEMListContent = () => {
         {/* Search and Filters */}
         <div className="mb-6 space-y-4">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+            <Search className=" absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
               placeholder="Search by name or description..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
+              className="pl-10 pr-4 py-2 border-gray-300 text-foreground focus:ring-gray-400"
             />
           </div>
 
@@ -103,10 +118,10 @@ const OEMListContent = () => {
               value={selectedCategory}
               onValueChange={setSelectedCategory}
             >
-              <SelectTrigger className="w-full sm:w-[200px]">
+              <SelectTrigger className="w-full sm:w-[200px] border-gray-300 text-foreground focus:ring-gray-400">
                 <SelectValue placeholder="Category" />
               </SelectTrigger>
-              <SelectContent className="bg-white">
+              <SelectContent className="bg-white border-gray-300 text-foreground focus:ring-gray-400">
                 {allCategories.map((cat) => (
                   <SelectItem key={cat} value={cat}>
                     {cat === "all" ? "All Categories" : cat}
@@ -116,10 +131,10 @@ const OEMListContent = () => {
             </Select>
 
             <Select value={selectedCountry} onValueChange={setSelectedCountry}>
-              <SelectTrigger className="w-full sm:w-[200px]">
+              <SelectTrigger className="w-full sm:w-[200px] border-gray-300 text-foreground focus:ring-gray-400">
                 <SelectValue placeholder="Country" />
               </SelectTrigger>
-              <SelectContent className="bg-white">
+              <SelectContent className="bg-white border-gray-300 text-foreground focus:ring-gray-400">
                 {allCountries.map((country) => (
                   <SelectItem key={country} value={country}>
                     {country === "all" ? "All Countries" : country}
@@ -146,112 +161,88 @@ const OEMListContent = () => {
         </div>
 
         {/* OEM Cards */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filteredOEMs.map((oem) => (
             <Card
               key={oem.id}
-              className={`transition-all hover:shadow-lg ${
+              className={`rounded-xl overflow-hidden border-0 bg-white transition-all hover:shadow-lg ${
                 selectedOEMs.includes(oem.id) ? "ring-2 ring-primary" : ""
               }`}
             >
-              <CardHeader>
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <CardTitle className="text-xl mb-2">{oem.name}</CardTitle>
-                    <CardDescription className="line-clamp-2">
-                      {oem.description}
-                    </CardDescription>
+              {/* Image + header overlap wrapper */}
+              <div className="relative">
+                <div className="absolute top-2 right-2">
+                  <CheckCircle2
+                    onClick={() => toggleOEMSelection(oem.id)}
+                    className={`h-6 w-6 text-primary flex-shrink-0 cursor-pointer ${
+                      selectedOEMs.includes(oem.id)
+                        ? "text-black"
+                        : "text-white"
+                    }`}
+                  />
+                </div>
+
+                <div className="aspect-[16/12] w-full rounded-t-xl overflow-hidden">
+                  <img
+                    src={getCoverUrl(oem)}
+                    alt={`${oem.name} cover`}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                  {/* Fade overlay sits below header */}
+                  <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-white z-10" />
+                </div>
+
+                <CardHeader className="absolute inset-x-0 -bottom-12 z-20 px-6">
+                  <div className="flex justify-between items-start">
+                    <div className="flex-1">
+                      <CardTitle className="text-xl mb-2">{oem.name}</CardTitle>
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {oem.categories.map((cat: string) => (
+                          <Badge
+                            key={cat}
+                            variant="secondary"
+                            className="text-xs font-medium text-black bg-white"
+                          >
+                            {cat}
+                          </Badge>
+                        ))}
+                      </div>
+                      <CardDescription className="line-clamp-2">
+                        {oem.description}
+                      </CardDescription>
+                    </div>
                   </div>
-                  {selectedOEMs.includes(oem.id) && (
-                    <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0 ml-2" />
-                  )}
-                </div>
-              </CardHeader>
+                </CardHeader>
+              </div>
 
-              <CardContent className="space-y-4">
-                <div className="flex items-center gap-2 text-sm">
-                  <Star className="h-4 w-4 fill-primary text-primary" />
-                  <span className="font-semibold">{oem.rating}</span>
-                  <span className="text-muted-foreground">
-                    ({oem.reliability}% reliability)
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <MapPin className="h-4 w-4" />
-                  <span>
-                    {oem.country}, {oem.region}
-                  </span>
-                </div>
-
-                <div className="flex flex-wrap gap-2">
-                  {oem.categories.map((cat: string) => (
-                    <Badge key={cat} variant="secondary">
-                      {cat}
-                    </Badge>
-                  ))}
-                </div>
-
-                <div className="space-y-1 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Price Range:</span>
-                    <span className="font-medium">{oem.priceRange}</span>
+              <CardFooter className="flex flex-col gap-2 mt-16">
+                <div className="flex flex-row gap-2 w-full justify-between">
+                  <div className="flex justify-between gap-2 text-sm">
+                    <div className="flex items-center gap-1">
+                      <Star className="h-4 w-4 fill-primary text-primary" />
+                      <span className="font-semibold">{oem.rating}</span>
+                    </div>
+{/* 
+                    <span className=" text-xs text-gray-500">
+                      {oem.reliability}% reliability
+                    </span> */}
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Delivery:</span>
-                    <span className="font-medium">{oem.deliveryTime}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">MOQ:</span>
-                    <span className="font-medium">{oem.moq}</span>
-                  </div>
-                </div>
 
-                <div className="flex flex-wrap gap-1">
-                  {oem.certifications.map((cert: any) => (
-                    <Badge key={cert} variant="outline" className="text-xs">
-                      {cert}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
+                  <div className="flex justify-between items-center gap-2 text-sm">
+                    <MapPin className="h-4 w-4" />
+                    <span className="text-sm text-black">{oem.country}</span>
+                  </div>
 
-              <CardFooter className="flex flex-col gap-2">
-                {/* Row: Website + Select */}
-                <div className="flex flex-row gap-2 w-full">
                   <Button
                     variant="outline"
                     size="sm"
-                    className="flex-1"
-                    onClick={() => window.open(`/oems/${oem.id}`, "_blank")}
+                    className="w-32 py-3 text-base bg-black text-white"
+                    onClick={() => router.push(`/oem/profile`)}
                   >
-                    <Globe className="h-4 w-50 mr-2" />
-                    View
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant={
-                      selectedOEMs.includes(oem.id) ? "default" : "outline"
-                    }
-                    className={`flex-1 ${
-                      selectedOEMs.includes(oem.id)
-                        ? "bg-black text-white"
-                        : "bg-white"
-                    }`}
-                    onClick={() => toggleOEMSelection(oem.id)}
-                  >
-                    {selectedOEMs.includes(oem.id) ? "Selected" : "Select"}
+                    Explore
                   </Button>
                 </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="w-full py-3 text-base"
-                  onClick={() => router.push(`/chat/${oem.id}`)}
-                >
-                  <MessageCircle className="h-4 w-4 mr-2" />
-                  Chat Now
-                </Button>
               </CardFooter>
             </Card>
           ))}
