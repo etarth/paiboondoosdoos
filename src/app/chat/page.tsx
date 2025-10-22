@@ -11,8 +11,8 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 md:p-12">
-      <div className="w-full max-w-5xl flex flex-col flex-grow">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center w-full">
+      <div className="w-full flex flex-col flex-grow">
         {/* Header */}
         <div className="mb-6 text-start">
           <h1 className="text-4xl font-bold mb-2">Friend List</h1>
