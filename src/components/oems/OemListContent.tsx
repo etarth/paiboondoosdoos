@@ -143,11 +143,15 @@ const OEMListContent = () => {
               </SelectContent>
             </Select>
 
-            {selectedOEMs.length >= 2 && (
+            {selectedOEMs.length >= 2 ? (
               <Button
                 onClick={handleCompare}
                 className="w-full sm:w-auto bg-black text-white"
               >
+                Compare Selected ({selectedOEMs.length})
+              </Button>
+            ) : (
+              <Button className="w-full sm:w-auto bg-white text-grey ">
                 Compare Selected ({selectedOEMs.length})
               </Button>
             )}
@@ -223,7 +227,7 @@ const OEMListContent = () => {
                       <Star className="h-4 w-4 fill-primary text-primary" />
                       <span className="font-semibold">{oem.rating}</span>
                     </div>
-{/* 
+                    {/* 
                     <span className=" text-xs text-gray-500">
                       {oem.reliability}% reliability
                     </span> */}

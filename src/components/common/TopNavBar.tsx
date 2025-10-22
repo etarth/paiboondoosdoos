@@ -5,7 +5,6 @@ import Button from "@mui/material/Button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "./AuthProvider";
-import { useRouter } from "next/navigation";
 
 export default function TopNavBar() {
   const { role, logout } = useAuth();
@@ -27,7 +26,11 @@ export default function TopNavBar() {
         sx={{ mr: 2 }}
       >
         <Typography variant="body2">
-          {role === "guest" ? "Guest" : role === "customer" ? "Customer" : "OEM"}
+          {role === "guest"
+            ? "Guest"
+            : role === "customer"
+            ? "Customer"
+            : "OEM"}
         </Typography>
       </Button>
 
