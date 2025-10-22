@@ -160,7 +160,7 @@ export const FriendList = ({
             <p>No friends found</p>
           </div>
         ) : (
-          <div className="p-2">
+          <div className="p-2 h-[500px] overflow-y-scroll">
             {filteredFriends.map((friend, index) => (
               <div
                 key={friend.id}

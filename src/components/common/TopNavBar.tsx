@@ -26,7 +26,11 @@ export default function TopNavBar() {
         sx={{ mr: 2 }}
       >
         <Typography variant="body2">
-          {role === "guest" ? "Guest" : role === "customer" ? "Customer" : "OEM"}
+          {role === "guest"
+            ? "Guest"
+            : role === "customer"
+            ? "Customer"
+            : "OEM"}
         </Typography>
       </Button>
 

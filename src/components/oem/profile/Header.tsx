@@ -13,8 +13,15 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { useAuth } from "@/components/common/AuthProvider";
 import VerifiedOutlinedIcon from "@mui/icons-material/VerifiedOutlined";
 
-export default function Header() {
-    
+export default function Header({
+  name,
+  company,
+  slogan,
+}: {
+  name: string;
+  company: string;
+  slogan: string;
+}) {
   const { role } = useAuth();
 
   return (
@@ -89,22 +96,24 @@ export default function Header() {
           className="flex w-full justify-between items-center gap-2"
         >
           <div>
-            
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
               <Typography variant="h6" sx={{ fontWeight: 700 }}>
-              Paiboon
-            </Typography>
-            <VerifiedOutlinedIcon sx={{ fontSize: 18, color: "#6B6B6B" }} />
-              
+                {name}
+              </Typography>
+              <VerifiedOutlinedIcon sx={{ fontSize: 18, color: "#6B6B6B" }} />
             </Box>
             <Typography variant="body2" color="text.secondary">
-                paiboon products co. ltd.
-            </Typography>
+              {company}
+            </Typography>{" "}
             {/* Industry and company size */}
-            <Box sx={{ mt: 1, display: "flex", flexWrap: "wrap", gap: 1 }}>
-              <Chip label="F&B" variant="outlined" size="small" />
-              <Chip label="Small size" variant="outlined" size="small" />
-            </Box>
+            {company.length === 0 ? (
+              <></>
+            ) : (
+              <Box sx={{ mt: 1, display: "flex", flexWrap: "wrap", gap: 1 }}>
+                <Chip label="F&B" variant="outlined" size="small" />
+                <Chip label="Small size" variant="outlined" size="small" />
+              </Box>
+            )}
           </div>
 
           {/* actions under text, circular icons */}
@@ -113,7 +122,13 @@ export default function Header() {
               <Button
                 variant="outlined"
                 aria-label="Edit profile"
-                sx={{ borderRadius: "50%", width: 40, height: 40, minWidth: 40, p: 0 }}
+                sx={{
+                  borderRadius: "50%",
+                  width: 40,
+                  height: 40,
+                  minWidth: 40,
+                  p: 0,
+                }}
               >
                 <EditOutlinedIcon />
               </Button>
@@ -122,14 +137,26 @@ export default function Header() {
                 <Button
                   variant="contained"
                   aria-label="Message"
-                  sx={{ borderRadius: "50%", width: 40, height: 40, minWidth: 40, p: 0 }}
+                  sx={{
+                    borderRadius: "50%",
+                    width: 40,
+                    height: 40,
+                    minWidth: 40,
+                    p: 0,
+                  }}
                 >
                   <MailOutlineIcon />
                 </Button>
                 <Button
                   variant="outlined"
                   aria-label="Favorite"
-                  sx={{ borderRadius: "50%", width: 40, height: 40, minWidth: 40, p: 0 }}
+                  sx={{
+                    borderRadius: "50%",
+                    width: 40,
+                    height: 40,
+                    minWidth: 40,
+                    p: 0,
+                  }}
                 >
                   <FavoriteBorderIcon />
                 </Button>
@@ -148,31 +175,32 @@ export default function Header() {
           bgcolor: "background.paper",
         }}
       >
-        <Typography variant="body2">
-          Paiboon Products Co., Ltd. is a Thailand-based snack manufacturer,
-          along with its affiliated company, K.P. Foods Co., Ltd., that produces
-          a wide array of snack products, including corn snacks, biscuits, and
-          crackers. The company has been recognized for its commitment to food
-          safety and quality, holding internationally recognized certifications
-          such as GMP and HACCP, as well as Halal certification to meet the
-          needs of Muslim consumers. In addition to product quality, the company
-          also demonstrates a focus on environmental responsibility, having
-          received Green Industry certification from Thailand's Ministry of
-          Industry for implementing environmentally friendly practices.
-        </Typography>
+        <Typography variant="body2">{slogan}</Typography>
       </Box>
 
       {/* Certifications */}
-      <Box sx={{padding: 2}}>
-        <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1 }}>
-          Certifications
-        </Typography>
-        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-          {["GMP", "HACCP", "Halal", "EMS", "Green Industry II"].map((label) => (
-            <Chip key={label} label={label} variant="outlined" size="small" sx={{ borderColor: "#e5e5e5" }} />
-          ))}
+      {company.length === 0 ? (
+        <></>
+      ) : (
+        <Box sx={{ padding: 2 }}>
+          <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1 }}>
+            Certifications
+          </Typography>
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+            {["GMP", "HACCP", "Halal", "EMS", "Green Industry II"].map(
+              (label) => (
+                <Chip
+                  key={label}
+                  label={label}
+                  variant="outlined"
+                  size="small"
+                  sx={{ borderColor: "#e5e5e5" }}
+                />
+              )
+            )}
+          </Box>
         </Box>
-      </Box>
+      )}
     </Box>
   );
 }
