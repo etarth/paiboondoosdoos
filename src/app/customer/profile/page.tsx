@@ -1,9 +1,9 @@
 "use client";
 
 import OrderHistory from "@/components/orderhistory/OrderHistory";
-import ProfileBar from "@/components/profiles/Profiles";
 import { Typography } from "@mui/material";
 import { useAuth } from "@/components/common/AuthProvider";
+import ProfileContent from "@/components/oem/ProfileContent";
 
 export default function UserProfilePage() {
   const { role } = useAuth();
@@ -14,8 +14,12 @@ export default function UserProfilePage() {
 
   return (
     <>
-      <ProfileBar />
-      <Typography variant="h4" sx={{ mt: 2 }}>
+      <ProfileContent
+        name="DoosDoos"
+        company=""
+        slogan="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptates est beatae libero veniam dolorum numquam ad molestias, quod deleniti? Quos cumque amet fuga facere. Quam porro deserunt aliquid eligendi. Tempore."
+      />
+      <Typography variant="h6" sx={{ mt: 2 }}>
         Order History
       </Typography>
       <OrderHistory />

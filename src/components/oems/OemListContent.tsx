@@ -146,12 +146,12 @@ const OEMListContent = () => {
             {selectedOEMs.length >= 2 ? (
               <Button
                 onClick={handleCompare}
-                className="w-full sm:w-auto bg-black text-white"
+                className="w-full sm:w-auto bg-white text-grey border border-gray-400 hover:bg-gray-100"
               >
                 Compare Selected ({selectedOEMs.length})
               </Button>
             ) : (
-              <Button className="w-full sm:w-auto bg-white text-grey ">
+              <Button className="w-full sm:w-auto bg-white text-grey border border-gray-400 opacity-30 hover:bg-white">
                 Compare Selected ({selectedOEMs.length})
               </Button>
             )}
