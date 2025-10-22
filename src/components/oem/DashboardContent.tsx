@@ -7,9 +7,9 @@ import Dashboard from "./dashboard/Dashboard";
 export default function DashboardContent() {
   return (
     <>
-      <Typography variant="h4" sx={{ mb: 2 }}>
+      <text className="text-4xl font-black mb-2" >
         Dashboard
-      </Typography>
+      </text>
       <Dashboard />
     </>
   );
