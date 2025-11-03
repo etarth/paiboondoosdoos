@@ -23,17 +23,19 @@ export default function SideNavBar() {
   // For non-OEM users:
   // - Guests: Home, OEM List (no Chat, no sample OEM Profile)
   // - Customers: Home, Chat, OEM List
-  const userItems = role === "customer"
-    ? [
-        { label: "Home", href: "/" },
-        { label: "Profile", href: "/customer/profile" },
-        { label: "Chat", href: "/chat" },
-        { label: "OEM List", href: "/oems" },
-      ]
-    : [
-        { label: "Home", href: "/" },
-        { label: "OEM List", href: "/oems" },
-      ];
+  const userItems =
+    role === "customer"
+      ? [
+          { label: "Home", href: "/" },
+          { label: "Explore", href: "/explore" },
+          { label: "Profile", href: "/customer/profile" },
+          { label: "Chat", href: "/chat" },
+          { label: "OEM List", href: "/oems" },
+        ]
+      : [
+          { label: "Home", href: "/" },
+          { label: "OEM List", href: "/oems" },
+        ];
 
   return (
     <>
