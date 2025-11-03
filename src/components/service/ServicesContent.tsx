@@ -15,19 +15,16 @@ const services = [
     title: "Idea to Brief",
     description:
       "ช่วย SME ตกผลึกไอเดีา วิเคราะห์คู่แข่ง และกรอกแบบฟอร์มให้สมบูรณ์",
-    icon: "💡",
   },
   {
     id: 2,
     title: "Cost & Margin Analysis",
     description: "วิเคราะห์ต้นทุน กำไร และจุดคุ้มทุนเบื้องต้น",
-    icon: "📊",
   },
   {
     id: 3,
     title: "FDA & Legal Consultation",
     description: "แนะนำขั้นตอนเบื้องต้นเรื่อง อย. และเครื่องหมายการค้า",
-    icon: "⚖️",
   },
 ];
 
@@ -53,9 +50,7 @@ export default function ServicesContent() {
               className="border-2 border-border hover:border-foreground transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 group"
             >
               <CardHeader className="text-center pb-4">
-                <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                  {service.icon}
-                </div>
+                <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300"></div>
                 <CardTitle className="text-2xl font-bold text-foreground mb-2">
                   {service.title}
                 </CardTitle>

@@ -54,7 +54,7 @@ export default function Process() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="border-b border-black/10">
+      {/* <header className="border-b border-black/10">
         <div className="container mx-auto px-4 py-4">
           <Button
             variant="ghost"
@@ -64,7 +64,7 @@ export default function Process() {
             ← Back to Home
           </Button>
         </div>
-      </header>
+      </header> */}
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-16">

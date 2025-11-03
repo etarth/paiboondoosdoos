@@ -22,14 +22,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 const blueprintSchema = z.object({
   productConcept: z
     .string()
-    .min(10, "กรุณาอธิบายแนวคิดสินค้าอย่างน้อย 10 ตัวอักษร"),
+    .min(5, "กรุณาอธิบายแนวคิดสินค้าอย่างน้อย 5 ตัวอักษร"),
   targetAudience: z
     .string()
-    .min(10, "กรุณาระบุกลุ่มเป้าหมายอย่างน้อย 10 ตัวอักษร"),
+    .min(5, "กรุณาระบุกลุ่มเป้าหมายอย่างน้อย 5 ตัวอักษร"),
   costPerUnit: z.string().min(1, "กรุณาระบุต้นทุนต่อหน่วย"),
   retailPrice: z.string().min(1, "กรุณาระบุราคาขาย"),
   keyIngredients: z.string().min(5, "กรุณาระบุส่วนผสมหลัก"),
@@ -42,6 +43,7 @@ const blueprintSchema = z.object({
 type BlueprintFormData = z.infer<typeof blueprintSchema>;
 
 export default function Blueprint() {
+  const router = useRouter();
   const [submittedData, setSubmittedData] = useState<BlueprintFormData | null>(
     null
   );
@@ -63,6 +65,7 @@ export default function Blueprint() {
   const onSubmit = (data: BlueprintFormData) => {
     setSubmittedData(data);
     window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    router.push("/services");
   };
 
   return (
@@ -324,7 +327,7 @@ export default function Blueprint() {
         </Card>
 
         {/* Summary Section */}
-        {submittedData && (
+        {/* {submittedData && (
           <Card className="mt-12 border-2 border-primary shadow-xl animate-fade-in">
             <CardHeader className="bg-primary text-primary-foreground">
               <CardTitle className="text-2xl">Brief Summary</CardTitle>
@@ -416,7 +419,7 @@ export default function Blueprint() {
               </div>
             </CardContent>
           </Card>
-        )}
+        )} */}
       </div>
     </div>
   );
