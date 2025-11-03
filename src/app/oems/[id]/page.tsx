@@ -1,7 +1,13 @@
 import OemProfileContent from "@/components/oems/OemProfileContent";
 import { ImageList, ImageListItem } from "@mui/material";
 
-export default function OemProfilePage({ params }: { params: { id: string } }) {
+export default async function OemProfilePage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+
   const itemData = [
     {
       img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
@@ -52,9 +58,10 @@ export default function OemProfilePage({ params }: { params: { id: string } }) {
       title: "Bike",
     },
   ];
+
   return (
     <>
-      <OemProfileContent id={params.id} />
+      <OemProfileContent id={id} />
       <ImageList cols={3}>
         {itemData.map((item) => (
           <ImageListItem key={item.img}>

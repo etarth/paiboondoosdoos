@@ -242,7 +242,7 @@ const OEMListContent = () => {
                     variant="outline"
                     size="sm"
                     className="w-32 py-3 text-base bg-black text-white"
-                    onClick={() => router.push(`/oem/profile`)}
+                    onClick={() => router.push(`/oems/${oem.id}`)}
                   >
                     Explore
                   </Button>
