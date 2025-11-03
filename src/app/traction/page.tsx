@@ -2,7 +2,15 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 import { TrendingUp, Users, Factory, CheckCircle, Clock } from "lucide-react";
 
 const metrics = [
@@ -90,11 +98,15 @@ export default function TractionPage() {
                   <div className="w-16 h-16 rounded-full bg-black text-white flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                     <Icon className="w-8 h-8" />
                   </div>
-                  <CardTitle className="text-4xl font-bold mb-2">{metric.value}</CardTitle>
+                  <CardTitle className="text-4xl font-bold mb-2">
+                    {metric.value}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="font-semibold mb-1">{metric.title}</p>
-                  <p className="text-sm text-muted-foreground">{metric.description}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {metric.description}
+                  </p>
                 </CardContent>
               </Card>
             );
@@ -105,7 +117,9 @@ export default function TractionPage() {
         <Card className="border-black/20 mb-16">
           <CardHeader>
             <CardTitle className="text-2xl">Growth Over Time</CardTitle>
-            <p className="text-muted-foreground">Platform metrics tracking (Last 7 months)</p>
+            <p className="text-muted-foreground">
+              Platform metrics tracking (Last 7 months)
+            </p>
           </CardHeader>
           <CardContent>
             <div className="h-96">
@@ -167,7 +181,9 @@ export default function TractionPage() {
 
         {/* CTA Section */}
         <div className="text-center p-8 border-2 border-black/20 rounded-lg">
-          <h2 className="text-2xl font-bold mb-4">พร้อมเป็นส่วนหนึ่งของความสำเร็จ?</h2>
+          <h2 className="text-2xl font-bold mb-4">
+            พร้อมเป็นส่วนหนึ่งของความสำเร็จ?
+          </h2>
           <p className="text-muted-foreground mb-6">
             เข้าร่วมกับ SME กว่า 120+ รายที่เชื่อมั่นในแพลตฟอร์มของเรา
           </p>
@@ -190,4 +206,4 @@ export default function TractionPage() {
       </main>
     </div>
   );
-};
+}
