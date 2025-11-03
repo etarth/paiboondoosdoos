@@ -29,6 +29,8 @@ export default function SideNavBar() {
           { label: "Home", href: "/" },
           { label: "Explore", href: "/explore" },
           { label: "Profile", href: "/customer/profile" },
+          { label: "Services", href: "/services" },
+          { label: "Brief", href: "/brief" },
           { label: "Chat", href: "/chat" },
           { label: "OEM List", href: "/oems" },
         ]
