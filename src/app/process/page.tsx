@@ -153,7 +153,7 @@ export default function Process() {
         {/* CTA Section */}
         <div className="text-center mt-16">
           <Button
-            onClick={() => router.push("/blueprint")}
+            onClick={() => router.push("/brief")}
             className="bg-black text-white hover:bg-white hover:text-black border-2 border-black px-8 py-6 text-lg"
           >
             เริ่มต้นด้วย Standardized Brief

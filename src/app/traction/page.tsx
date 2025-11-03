@@ -189,7 +189,7 @@ export default function TractionPage() {
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Button
-              onClick={() => router.push("/process")}
+              onClick={() => router.push("/brief")}
               className="bg-black text-white hover:bg-white hover:text-black border-2 border-black px-8 py-6 text-lg"
             >
               Start Your Journey

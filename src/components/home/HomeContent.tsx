@@ -116,7 +116,7 @@ export default function Home() {
             <CardContent>
               <Button
                 variant="default"
-                onClick={() => router.push("/blueprint")}
+                onClick={() => router.push("/brief")}
                 className="w-full"
               >
                 Start Your Brief
