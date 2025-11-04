@@ -22,15 +22,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useRouter } from "next/navigation";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { CheckCircle2, AlertCircle } from "lucide-react";
 
 const blueprintSchema = z.object({
   productConcept: z
     .string()
-    .min(5, "กรุณาอธิบายแนวคิดสินค้าอย่างน้อย 5 ตัวอักษร"),
+    .min(10, "กรุณาอธิบายแนวคิดสินค้าอย่างน้อย 10 ตัวอักษร"),
   targetAudience: z
     .string()
-    .min(5, "กรุณาระบุกลุ่มเป้าหมายอย่างน้อย 5 ตัวอักษร"),
+    .min(10, "กรุณาระบุกลุ่มเป้าหมายอย่างน้อย 10 ตัวอักษร"),
   costPerUnit: z.string().min(1, "กรุณาระบุต้นทุนต่อหน่วย"),
   retailPrice: z.string().min(1, "กรุณาระบุราคาขาย"),
   keyIngredients: z.string().min(5, "กรุณาระบุส่วนผสมหลัก"),
@@ -42,11 +44,112 @@ const blueprintSchema = z.object({
 
 type BlueprintFormData = z.infer<typeof blueprintSchema>;
 
+interface AnalysisResult {
+  readinessScore: number;
+  recommendedPackages: string[];
+  strengths: string[];
+  improvements: string[];
+}
+
+const calculateReadiness = (data: BlueprintFormData): AnalysisResult => {
+  let score = 0;
+  const strengths: string[] = [];
+  const improvements: string[] = [];
+  const recommendedPackages: string[] = [];
+
+  // Business Status (20 points)
+  if (data.businessStatus === "registered") {
+    score += 20;
+    strengths.push("Business is registered");
+  } else {
+    improvements.push("Consider registering your business");
+  }
+
+  // FDA Knowledge (20 points)
+  if (data.fdaKnowledge === "has-knowledge") {
+    score += 20;
+    strengths.push("Has FDA/อย. knowledge");
+  } else {
+    improvements.push("Need FDA/อย. consultation");
+    recommendedPackages.push("FDA & Legal Consultation");
+  }
+
+  // Product Concept Detail (15 points)
+  if (data.productConcept.length > 100) {
+    score += 15;
+    strengths.push("Well-detailed product concept");
+  } else if (data.productConcept.length > 50) {
+    score += 10;
+  } else {
+    improvements.push("Product concept needs more detail");
+    recommendedPackages.push("Idea to Brief");
+  }
+
+  // Target Audience Clarity (15 points)
+  if (data.targetAudience.length > 80) {
+    score += 15;
+    strengths.push("Clear target audience definition");
+  } else if (data.targetAudience.length > 40) {
+    score += 10;
+  } else {
+    improvements.push("Define target audience more clearly");
+  }
+
+  // Cost/Price Analysis (10 points)
+  const cost = parseFloat(data.costPerUnit);
+  const price = parseFloat(data.retailPrice);
+  if (!isNaN(cost) && !isNaN(price) && price > cost) {
+    const margin = ((price - cost) / price) * 100;
+    if (margin > 30) {
+      score += 10;
+      strengths.push("Healthy profit margin");
+    } else {
+      score += 5;
+      improvements.push("Profit margin may be tight");
+      recommendedPackages.push("Cost & Margin Analysis");
+    }
+  } else {
+    improvements.push("Need proper cost-price analysis");
+    recommendedPackages.push("Cost & Margin Analysis");
+  }
+
+  // Key Ingredients (10 points)
+  if (data.keyIngredients.length > 50) {
+    score += 10;
+    strengths.push("Detailed ingredient specification");
+  } else if (data.keyIngredients.length > 20) {
+    score += 5;
+  } else {
+    improvements.push("Provide more ingredient details");
+  }
+
+  // Expected Volume (10 points)
+  const volume = parseFloat(data.expectedVolume);
+  if (!isNaN(volume) && volume > 0) {
+    score += 10;
+    if (volume >= 1000) {
+      strengths.push("Good production volume planned");
+    }
+  }
+
+  // Add general package recommendations based on score
+  if (score < 50 && !recommendedPackages.includes("Idea to Brief")) {
+    recommendedPackages.unshift("Idea to Brief");
+  }
+
+  return {
+    readinessScore: Math.min(score, 100),
+    recommendedPackages: [...new Set(recommendedPackages)], // Remove duplicates
+    strengths,
+    improvements,
+  };
+};
+
 export default function Blueprint() {
-  const router = useRouter();
   const [submittedData, setSubmittedData] = useState<BlueprintFormData | null>(
     null
   );
+  const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
 
   const {
     register,
@@ -63,9 +166,13 @@ export default function Blueprint() {
   const fdaKnowledge = watch("fdaKnowledge");
 
   const onSubmit = (data: BlueprintFormData) => {
+    const analysisResult = calculateReadiness(data);
     setSubmittedData(data);
-    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-    router.push("/services");
+    setAnalysis(analysisResult);
+
+    setTimeout(() => {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    }, 100);
   };
 
   return (
@@ -182,7 +289,7 @@ export default function Blueprint() {
                   id="keyIngredients"
                   {...register("keyIngredients")}
                   placeholder="ส่วนผสมหลักของสินค้า..."
-                  className="min-h-20 border-input focus:border-foreground"
+                  className="min-h-[80px] border-input focus:border-foreground"
                 />
                 {errors.keyIngredients && (
                   <p className="text-sm text-destructive">
@@ -326,100 +433,221 @@ export default function Blueprint() {
           </CardContent>
         </Card>
 
-        {/* Summary Section */}
-        {/* {submittedData && (
-          <Card className="mt-12 border-2 border-primary shadow-xl animate-fade-in">
-            <CardHeader className="bg-primary text-primary-foreground">
-              <CardTitle className="text-2xl">Brief Summary</CardTitle>
-              <CardDescription className="text-primary-foreground/80">
-                รายละเอียดที่คุณกรอก
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="pt-6 space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="font-semibold text-foreground mb-1">
-                    Product Concept
-                  </h3>
-                  <p className="text-muted-foreground">
-                    {submittedData.productConcept}
+        {/* Readiness Analysis Section */}
+        {submittedData && analysis && (
+          <>
+            <Card className="mt-12 border-2 border-primary shadow-xl animate-fade-in">
+              <CardHeader className="bg-primary text-primary-foreground">
+                <CardTitle className="text-2xl">Readiness Analysis</CardTitle>
+                <CardDescription className="text-primary-foreground/80">
+                  วิเคราะห์ความพร้อมของโปรเจกต์คุณ
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-6 space-y-6">
+                {/* Readiness Score */}
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-semibold text-foreground">
+                      Readiness Score
+                    </h3>
+                    <Badge
+                      variant={
+                        analysis.readinessScore >= 70 ? "default" : "secondary"
+                      }
+                      className="text-lg px-4 py-1"
+                    >
+                      {analysis.readinessScore}%
+                    </Badge>
+                  </div>
+                  <Progress value={analysis.readinessScore} className="h-3" />
+                  <p className="text-sm text-muted-foreground">
+                    {analysis.readinessScore >= 85 &&
+                      "Excellent! You're ready to match with OEMs."}
+                    {analysis.readinessScore >= 70 &&
+                      analysis.readinessScore < 85 &&
+                      "Good progress! A few improvements will make you production-ready."}
+                    {analysis.readinessScore >= 50 &&
+                      analysis.readinessScore < 70 &&
+                      "You're on the right track, but need some preparation."}
+                    {analysis.readinessScore < 50 &&
+                      "Let's work together to strengthen your product foundation."}
                   </p>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-1">
-                    Target Audience
-                  </h3>
-                  <p className="text-muted-foreground">
-                    {submittedData.targetAudience}
-                  </p>
+
+                {/* Strengths */}
+                {analysis.strengths.length > 0 && (
+                  <div className="space-y-2">
+                    <h3 className="font-semibold text-foreground flex items-center gap-2">
+                      <CheckCircle2 className="w-5 h-5 text-green-600" />
+                      Strengths
+                    </h3>
+                    <ul className="space-y-1 ml-7">
+                      {analysis.strengths.map((strength, index) => (
+                        <li
+                          key={index}
+                          className="text-sm text-muted-foreground"
+                        >
+                          • {strength}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Areas for Improvement */}
+                {analysis.improvements.length > 0 && (
+                  <div className="space-y-2">
+                    <h3 className="font-semibold text-foreground flex items-center gap-2">
+                      <AlertCircle className="w-5 h-5 text-orange-500" />
+                      Areas for Improvement
+                    </h3>
+                    <ul className="space-y-1 ml-7">
+                      {analysis.improvements.map((improvement, index) => (
+                        <li
+                          key={index}
+                          className="text-sm text-muted-foreground"
+                        >
+                          • {improvement}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Recommended Packages */}
+                {analysis.recommendedPackages.length > 0 && (
+                  <div className="space-y-3 pt-4 border-t border-border">
+                    <h3 className="font-semibold text-foreground">
+                      Recommended Packages
+                    </h3>
+                    <div className="grid gap-3">
+                      {analysis.recommendedPackages.map(
+                        (packageName, index) => (
+                          <div
+                            key={index}
+                            className="p-4 border-2 border-border rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-colors"
+                          >
+                            <h4 className="font-semibold text-foreground mb-1">
+                              {packageName}
+                            </h4>
+                            <p className="text-sm text-muted-foreground">
+                              {packageName === "Idea to Brief" &&
+                                "ช่วย SME ตกผลึกไอเดีย วิเคราะห์คู่แข่ง และกรอกแบบฟอร์มให้สมบูรณ์"}
+                              {packageName === "Cost & Margin Analysis" &&
+                                "วิเคราะห์ต้นทุน กำไร และจุดคุ้มทุนเบื้องต้น"}
+                              {packageName === "FDA & Legal Consultation" &&
+                                "แนะนำขั้นตอนเบื้องต้นเรื่อง อย. และเครื่องหมายการค้า"}
+                            </p>
+                            <Button
+                              variant="outline"
+                              className="mt-3 w-full"
+                              onClick={() =>
+                                (window.location.href = "/services")
+                              }
+                            >
+                              Learn More
+                            </Button>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Summary Section */}
+            <Card className="mt-8 border-2 border-border shadow-lg">
+              <CardHeader>
+                <CardTitle className="text-xl">Brief Summary</CardTitle>
+                <CardDescription>รายละเอียดที่คุณกรอก</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-1">
+                      Product Concept
+                    </h3>
+                    <p className="text-muted-foreground">
+                      {submittedData.productConcept}
+                    </p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-1">
+                      Target Audience
+                    </h3>
+                    <p className="text-muted-foreground">
+                      {submittedData.targetAudience}
+                    </p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-1">
+                      Cost per Unit
+                    </h3>
+                    <p className="text-muted-foreground">
+                      ฿{submittedData.costPerUnit}
+                    </p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-1">
+                      Retail Price
+                    </h3>
+                    <p className="text-muted-foreground">
+                      ฿{submittedData.retailPrice}
+                    </p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-1">
+                      Key Ingredients
+                    </h3>
+                    <p className="text-muted-foreground">
+                      {submittedData.keyIngredients}
+                    </p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-1">
+                      Packaging
+                    </h3>
+                    <p className="text-muted-foreground">
+                      {submittedData.packaging === "bottle" && "ขวดแก้ว"}
+                      {submittedData.packaging === "sachet" && "ซอง"}
+                      {submittedData.packaging === "can" && "กระป๋อง"}
+                      {submittedData.packaging === "other" && "อื่นๆ"}
+                    </p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-1">
+                      Expected Volume
+                    </h3>
+                    <p className="text-muted-foreground">
+                      {submittedData.expectedVolume} units
+                    </p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-1">
+                      Business Status
+                    </h3>
+                    <p className="text-muted-foreground">
+                      {submittedData.businessStatus === "registered"
+                        ? "จดทะเบียนแล้ว"
+                        : "ยังไม่จดทะเบียน"}
+                    </p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-1">
+                      FDA Knowledge
+                    </h3>
+                    <p className="text-muted-foreground">
+                      {submittedData.fdaKnowledge === "has-knowledge"
+                        ? "มีความรู้เรื่อง อย."
+                        : "ไม่มีความรู้เรื่อง อย."}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-1">
-                    Cost per Unit
-                  </h3>
-                  <p className="text-muted-foreground">
-                    ฿{submittedData.costPerUnit}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-1">
-                    Retail Price
-                  </h3>
-                  <p className="text-muted-foreground">
-                    ฿{submittedData.retailPrice}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-1">
-                    Key Ingredients
-                  </h3>
-                  <p className="text-muted-foreground">
-                    {submittedData.keyIngredients}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-1">
-                    Packaging
-                  </h3>
-                  <p className="text-muted-foreground">
-                    {submittedData.packaging === "bottle" && "ขวดแก้ว"}
-                    {submittedData.packaging === "sachet" && "ซอง"}
-                    {submittedData.packaging === "can" && "กระป๋อง"}
-                    {submittedData.packaging === "other" && "อื่นๆ"}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-1">
-                    Expected Volume
-                  </h3>
-                  <p className="text-muted-foreground">
-                    {submittedData.expectedVolume} units
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-1">
-                    Business Status
-                  </h3>
-                  <p className="text-muted-foreground">
-                    {submittedData.businessStatus === "registered"
-                      ? "จดทะเบียนแล้ว"
-                      : "ยังไม่จดทะเบียน"}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-1">
-                    FDA Knowledge
-                  </h3>
-                  <p className="text-muted-foreground">
-                    {submittedData.fdaKnowledge === "has-knowledge"
-                      ? "มีความรู้เรื่อง อย."
-                      : "ไม่มีความรู้เรื่อง อย."}
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        )} */}
+              </CardContent>
+            </Card>
+          </>
+        )}
       </div>
     </div>
   );
